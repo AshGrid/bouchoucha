@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="text-center">
+                            <h3 class="mb-0"><i class="fas fa-sign-in-alt me-2"></i> Welcome Back</h3>
+                        </div>
+                    </div>
+
+                    <!-- Flash Messages -->
+                    {% if error %}
+                        <div class="alert alert-danger rounded-0 mb-0" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="alert alert-info rounded-0 mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            You are logged in as {{ app.user.userIdentifier }},
+                            <a href="{{ path('app_logout') }}" class="alert-link">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <!-- Form Section -->
+                    <div class="card-body p-5">
+                        <form method="post" class="needs-validation" novalidate>
+                            <!-- Email Field -->
+                            <div class="mb-4">
+                                <label for="inputEmail" class="form-label fw-bold">Email Address</label>
+                                <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </span>
+                                    <input
+                                            type="email"
+                                            value="{{ last_username }}"
+                                            name="email"
+                                            id="inputEmail"
+                                            class="form-control py-3"
+                                            placeholder="your@email.com"
+                                            autocomplete="email"
+                                            required
+                                            autofocus>
+                                </div>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="mb-4">
+                                <label for="inputPassword" class="form-label fw-bold">Password</label>
+                                <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-lock text-primary"></i>
+                                </span>
+                                    <input
+                                            type="password"
+                                            name="password"
+                                            id="inputPassword"
+                                            class="form-control py-3"
+                                            placeholder="Enter your password"
+                                            autocomplete="current-password"
+                                            required>
+                                </div>
+
+                            </div>
+
+                            <!-- Remember Me Checkbox -->
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="_remember_me">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            <!-- Submit Button -->
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Login
+                                </button>
+                            </div>
+
+                            <!-- Register Link -->
+                            <div class="text-center">
+                                <p class="mb-0">Don't have an account?
+                                    <a href="{{ path('app_register') }}" class="text-primary fw-bold">Create one</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* Consistent with registration form styles */
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            border-bottom: none;
+        }
+        .alert {
+            border-radius: 0;
+        }
+    </style>
+{% endblock %}

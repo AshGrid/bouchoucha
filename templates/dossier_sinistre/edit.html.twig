@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Claim #{{ dossier_sinistre.id }} - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">
+                                <i class="fas fa-edit me-2"></i>
+                                Edit Claim - Policy #{{ dossier_sinistre.numeroPolice }}
+                            </h3>
+                            <a href="{{ path('app_dossier_sinistre_show', {'id': dossier_sinistre.id}) }}"
+                               class="btn btn-light rounded-pill">
+                                <i class="fas fa-eye me-2"></i> View Claim
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Form Section -->
+                    <div class="card-body p-5">
+                        {{ form_start(form, {
+                            'attr': {
+                                'class': 'needs-validation',
+                                'novalidate': 'novalidate'
+                            }
+                        }) }}
+
+                        <div class="row g-4">
+                            <!-- Policy Number -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.numeroPolice, 'Policy Number', {
+                                        'label_attr': {
+                                            'class': 'form-label fw-bold mb-3'
+                                        }
+                                    }) }}
+                                    <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-file-invoice text-primary"></i>
+                                    </span>
+                                        {{ form_widget(form.numeroPolice, {
+                                            'attr': {
+                                                'class': 'form-control py-3',
+                                                'placeholder': 'Enter policy number'
+                                            }
+                                        }) }}
+                                    </div>
+                                    {{ form_errors(form.numeroPolice) }}
+                                </div>
+                            </div>
+
+                            <!-- Claim Status -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.etat, 'Claim Status', {
+                                        'label_attr': {
+                                            'class': 'form-label fw-bold mb-3'
+                                        }
+                                    }) }}
+                                    <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-tag text-primary"></i>
+                                    </span>
+                                        {{ form_widget(form.etat, {
+                                            'attr': {
+                                                'class': 'form-select py-3'
+                                            }
+                                        }) }}
+                                    </div>
+                                    {{ form_errors(form.etat) }}
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form_label(form.description, 'Description', {
+                                        'label_attr': {
+                                            'class': 'form-label fw-bold mb-3'
+                                        }
+                                    }) }}
+                                    {{ form_widget(form.description, {
+                                        'attr': {
+                                            'class': 'form-control py-3',
+                                            'placeholder': 'Describe the incident in detail',
+                                            'rows': 5
+                                        }
+                                    }) }}
+                                    {{ form_errors(form.description) }}
+                                </div>
+                            </div>
+
+                            <!-- Supporting Documents -->
+
+
+
+
+                            <!-- Action Buttons -->
+                            <div class="col-12 mt-4">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="{{ path('app_dossier_sinistre_index') }}"
+                                           class="btn btn-outline-secondary rounded-pill me-2">
+                                            <i class="fas fa-arrow-left me-2"></i> Back to List
+                                        </a>
+                                        {{ include('dossier_sinistre/_delete_form.html.twig') }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                        <i class="fas fa-save me-2"></i> Update Claim
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .document-card {
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        .document-card:hover {
+            border-color: #0d6efd;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+        .border-dashed {
+            border: 2px dashed #dee2e6;
+        }
+        .file-upload-area {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-upload-area:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+    </style>
+
+
+{% endblock %}
