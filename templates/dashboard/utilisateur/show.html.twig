@@ -1,0 +1,69 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}Utilisateur Details{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Utilisateur Details</h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">User Information</h6>
+                <div>
+                    <a href="{{ path('app_user_index') }}" class="btn btn-secondary btn-sm mr-2">
+                        <i class="fas fa-arrow-left"></i> Back to list
+                    </a>
+                    <a href="{{ path('app_user_edit', {'id': utilisateur.id}) }}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <th width="20%">ID</th>
+                            <td>{{ utilisateur.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ utilisateur.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Roles</th>
+                            <td>
+                                {% for role in utilisateur.roles %}
+                                    <span class="badge badge-primary">{{ role }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Password</th>
+                            <td>••••••••</td> {# Hidden for security #}
+                        </tr>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ utilisateur.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Verified</th>
+                            <td>
+                                {% if utilisateur.isVerified %}
+                                    <span class="badge badge-success">Yes</span>
+                                {% else %}
+                                    <span class="badge badge-warning">No</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4">
+                    {{ include('dashboard/utilisateur/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

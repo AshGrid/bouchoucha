@@ -1,0 +1,123 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Register - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="text-center">
+                            <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i> Create Your Account</h3>
+                        </div>
+                    </div>
+
+                    <!-- Flash Messages -->
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger rounded-0 mb-0" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> {{ flash_error }}
+                        </div>
+                    {% endfor %}
+
+                    <!-- Form Section -->
+                    <div class="card-body p-5">
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                        <!-- Email Field -->
+                        <div class="mb-4">
+                            {{ form_label(registrationForm.email, 'Email Address', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fas fa-envelope text-primary"></i>
+                            </span>
+                                {{ form_widget(registrationForm.email, {'attr': {
+                                    'class': 'form-control py-3',
+                                    'placeholder': 'your@email.com'
+                                }}) }}
+                            </div>
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+
+                        <!-- Name Field -->
+                        <div class="mb-4">
+                            {{ form_label(registrationForm.nom, 'Full Name', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fas fa-user text-primary"></i>
+                            </span>
+                                {{ form_widget(registrationForm.nom, {'attr': {
+                                    'class': 'form-control py-3',
+                                    'placeholder': 'John Doe'
+                                }}) }}
+                            </div>
+                            {{ form_errors(registrationForm.nom) }}
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fas fa-lock text-primary"></i>
+                            </span>
+                                {{ form_widget(registrationForm.plainPassword, {'attr': {
+                                    'class': 'form-control py-3',
+                                    'placeholder': 'Create a password'
+                                }}) }}
+                            </div>
+                            <small class="form-text text-muted">Minimum 8 characters</small>
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
+
+                        <!-- Terms Checkbox -->
+                        <div class="mb-4 form-check">
+                            {{ form_widget(registrationForm.agreeTerms, {'attr': {
+                                'class': 'form-check-input'
+                            }}) }}
+                            {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions', {
+                                'label_attr': {'class': 'form-check-label'}
+                            }) }}
+                            {{ form_errors(registrationForm.agreeTerms) }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
+                                <i class="fas fa-user-plus me-2"></i> Register Now
+                            </button>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="mb-0">Already have an account?
+                                <a href="{{ path('app_login') }}" class="text-primary fw-bold">Sign In</a>
+                            </p>
+                        </div>
+
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            border-bottom: none;
+        }
+    </style>
+{% endblock %}

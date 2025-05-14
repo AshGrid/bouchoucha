@@ -1,0 +1,112 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}Customer Complaints - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i> Customer Complaints</h3>
+                            <a href="{{ path('app_reclamation_new') }}" class="btn btn-light rounded-pill">
+                                <i class="fas fa-plus me-2"></i> New Complaint
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Table Section -->
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="fw-bold">ID</th>
+                                    <th class="fw-bold">Description</th>
+                                    <th class="fw-bold">Status</th>
+                                    <th class="fw-bold text-end">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for reclamation in reclamations %}
+                                    <tr>
+                                        <td>#{{ reclamation.id }}</td>
+                                        <td>{{ reclamation.description|u.truncate(60, '...') }}</td>
+                                        <td>
+                                        <span class="badge
+                                            {% if reclamation.statut == 'Open' %}bg-warning
+                                            {% elseif reclamation.statut == 'Resolved' %}bg-success
+                                            {% elseif reclamation.statut == 'Rejected' %}bg-danger
+                                            {% elseif reclamation.statut == 'In Progress' %}bg-info
+                                            {% else %}bg-secondary
+                                            {% endif %}">
+                                            {{ reclamation.statut }}
+                                        </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}"
+                                                   class="btn btn-sm btn-outline-primary rounded-pill me-2">
+                                                    <i class="fas fa-eye me-1"></i> View
+                                                </a>
+                                                <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}"
+                                                   class="btn btn-sm btn-outline-secondary rounded-pill">
+                                                    <i class="fas fa-edit me-1"></i> Edit
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">
+                                            <div class="alert alert-info mb-0">
+                                                <i class="fas fa-info-circle me-2"></i> No complaints found
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination Section -->
+                    <div class="card-footer bg-transparent">
+                        <nav aria-label="Complaints navigation">
+                            <ul class="pagination justify-content-center mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .table-hover tbody tr:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .table th {
+            border-top: none;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-size: 0.85em;
+            font-weight: 500;
+            min-width: 100px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}User Management{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">User Management</h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Users List</h6>
+                <a href="#" class="btn btn-primary btn-sm">Add New User</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Roles</th>
+                            <th>Verified</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.nom }}</td>
+                                <td>
+                                    {% for role in user.roles %}
+                                        <span class="badge badge-primary">{{ role }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% if user.isVerified %}
+                                        <span class="badge badge-success">Yes</span>
+                                    {% else %}
+                                        <span class="badge badge-warning">No</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Page level plugins -->
+    <script src="{{ asset('assets/dashboard/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "pageLength": 10,
+                "ordering": true,
+                "responsive": true,
+                "language": {
+                    "paginate": {
+                        "previous": "<i class='fas fa-angle-left'></i>",
+                        "next": "<i class='fas fa-angle-right'></i>"
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

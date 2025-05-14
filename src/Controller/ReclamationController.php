@@ -17,7 +17,7 @@ final class ReclamationController extends AbstractController
     #[Route(name: 'app_reclamation_index', methods: ['GET'])]
     public function index(ReclamationRepository $reclamationRepository): Response
     {
-        return $this->render('reclamation/index.html.twig', [
+        return $this->render('user/reclamation/index.html.twig', [
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class ReclamationController extends AbstractController
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('reclamation/new.html.twig', [
+        return $this->render('user/reclamation/new.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class ReclamationController extends AbstractController
     #[Route('/{id}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
     {
-        return $this->render('reclamation/show.html.twig', [
+        return $this->render('user/reclamation/show.html.twig', [
             'reclamation' => $reclamation,
         ]);
     }
@@ -62,7 +62,7 @@ final class ReclamationController extends AbstractController
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('reclamation/edit.html.twig', [
+        return $this->render('user/reclamation/edit.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form,
         ]);

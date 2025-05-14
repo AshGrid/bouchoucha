@@ -1,0 +1,153 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Claim #{{ dossier_sinistre.id }} - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">
+                                <i class="fas fa-file-contract me-2"></i>
+                                Claim Details - Policy #{{ dossier_sinistre.numeroPolice }}
+                            </h3>
+                            <div class="btn-group">
+                                <a href="{{ path('app_dossier_sinistre_index') }}" class="btn btn-light rounded-pill me-2">
+                                    <i class="fas fa-arrow-left me-2"></i> Back to Claims
+                                </a>
+                                <a href="{{ path('app_dossier_sinistre_edit', {'id': dossier_sinistre.id}) }}"
+                                   class="btn btn-warning rounded-pill">
+                                    <i class="fas fa-edit me-2"></i> Edit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claim Details Section -->
+                    <div class="card-body p-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="detail-card mb-4 p-4 bg-light rounded">
+                                    <h5 class="text-primary mb-4">
+                                        <i class="fas fa-info-circle me-2"></i> Basic Information
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <p class="mb-1 fw-bold">Claim ID</p>
+                                            <p class="text-muted">{{ dossier_sinistre.id }}</p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <p class="mb-1 fw-bold">Status</p>
+                                            <span class="badge
+                                            {% if dossier_sinistre.etat == 'Pending' %}bg-warning
+                                            {% elseif dossier_sinistre.etat == 'Approved' %}bg-success
+                                            {% elseif dossier_sinistre.etat == 'Rejected' %}bg-danger
+                                            {% else %}bg-secondary
+                                            {% endif %}">
+                                            {{ dossier_sinistre.etat }}
+                                        </span>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <p class="mb-1 fw-bold">Policy Number</p>
+                                            <p class="text-muted">{{ dossier_sinistre.numeroPolice }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="detail-card mb-4 p-4 bg-light rounded">
+                                    <h5 class="text-primary mb-4">
+                                        <i class="fas fa-calendar-alt me-2"></i> Dates
+                                    </h5>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description Section -->
+                        <div class="detail-card mb-4 p-4 bg-light rounded">
+                            <h5 class="text-primary mb-4">
+                                <i class="fas fa-align-left me-2"></i> Description
+                            </h5>
+                            <div class="p-3 bg-white rounded">
+                                {{ dossier_sinistre.description|nl2br }}
+                            </div>
+                        </div>
+
+                        <!-- Documents Section (optional) -->
+                        <div class="detail-card mb-4 p-4 bg-light rounded">
+                            <h5 class="text-primary mb-4">
+                                <i class="fas fa-paperclip me-2"></i> Supporting Documents
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
+                                        <i class="fas fa-file-pdf fa-3x text-danger mb-2"></i>
+                                        <p class="mb-1 fw-bold">Police Report.pdf</p>
+                                        <small class="text-muted">2.4 MB</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
+                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
+                                        <p class="mb-1 fw-bold">Damage_1.jpg</p>
+                                        <small class="text-muted">1.8 MB</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
+                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
+                                        <p class="mb-1 fw-bold">Damage_2.jpg</p>
+                                        <small class="text-muted">2.1 MB</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            {{ include('user/dossier_sinistre/_delete_form.html.twig') }}
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-primary rounded-pill me-2">
+                                    <i class="fas fa-print me-2"></i> Print
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary rounded-pill">
+                                    <i class="fas fa-share-alt me-2"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .detail-card {
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .detail-card:hover {
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+        .document-thumbnail {
+            border: 1px dashed #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .document-thumbnail:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .badge {
+            padding: 0.5em 0.75em;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+    </style>
+{% endblock %}

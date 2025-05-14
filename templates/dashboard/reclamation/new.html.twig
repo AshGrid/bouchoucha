@@ -1,0 +1,104 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}New Reclamation - LifeSure{% endblock %}
+
+{% block body %}
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                    <!-- Header Section -->
+                    <div class="card-header bg-primary text-white py-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i> New Reclamation</h3>
+                            <a href="{{ path('app_reclamation_index') }}" class="btn btn-light rounded-pill">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Reclamations
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Form Section -->
+                    <div class="card-body p-5">
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                        <div class="row g-4">
+                            <!-- Title -->
+
+
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.statut, 'Status', {'label_attr': {'class': 'form-label fw-bold mb-3'}}) }}
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="fas fa-tag text-primary"></i>
+                                        </span>
+                                        {{ form_widget(form.statut, {'attr': {
+                                            'class': 'form-select py-3',
+                                        }}) }}
+                                    </div>
+                                    {{ form_errors(form.statut) }}
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-bold mb-3'}}) }}
+                                    {{ form_widget(form.description, {'attr': {
+                                        'class': 'form-control py-3',
+                                        'placeholder': 'Describe your reclamation in detail',
+                                        'rows': 5
+                                    }}) }}
+                                    {{ form_errors(form.description) }}
+                                </div>
+                            </div>
+
+                            <!-- Date -->
+
+
+                            <!-- Supporting Documents (optional) -->
+
+
+                            <!-- Submit Button -->
+                            <div class="col-12 mt-4">
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
+                                        <i class="fas fa-save me-2"></i> Submit Reclamation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            border-bottom: none;
+        }
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-right: 0;
+        }
+        .is-invalid {
+            border-color: #dc3545;
+        }
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875em;
+        }
+    </style>
+{% endblock %}

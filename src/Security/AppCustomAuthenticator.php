@@ -46,7 +46,18 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         }
         $user = $token->getUser();
 
+
+
+        if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_home_dashboard'));
+        }
+
+        // Add other role checks as needed
+
+
+        // Default redirect for regular users
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
+
     }
 
     protected function getLoginUrl(Request $request): string

@@ -13,6 +13,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_CLIENT = 'ROLE_CLIENT';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,7 +29,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
@@ -56,41 +61,75 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
+        // Every user must have at least ROLE_USER
+        if (empty($roles)) {
+            $roles[] = self::ROLE_USER;
+        }
 
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
-
+        $this->roles = array_unique($roles);
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
+    public function addRole(string $role): static
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+        return $this;
+    }
+
+    public function removeRole(string $role): static
+    {
+        $key = array_search($role, $this->roles, true);
+        if (false !== $key) {
+            unset($this->roles[$key]);
+        }
+        return $this;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles(), true);
+    }
+
+    public function promoteToClient(): static
+    {
+        $this->addRole(self::ROLE_CLIENT);
+        return $this;
+    }
+
+    public function promoteToAdmin(): static
+    {
+        $this->addRole(self::ROLE_ADMIN);
+        return $this;
+    }
+
+    public function promoteToSuperAdmin(): static
+    {
+        $this->addRole(self::ROLE_SUPER_ADMIN);
+        return $this;
+    }
+
+    public function demoteToUser(): static
+    {
+        $this->roles = [self::ROLE_USER];
+        return $this;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -99,13 +138,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -120,7 +155,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -132,7 +166,23 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
         return $this;
+    }
+
+    public function getHighestRole(): string
+    {
+        $roles = $this->getRoles();
+
+        if (in_array(self::ROLE_SUPER_ADMIN, $roles, true)) {
+            return self::ROLE_SUPER_ADMIN;
+        }
+        if (in_array(self::ROLE_ADMIN, $roles, true)) {
+            return self::ROLE_ADMIN;
+        }
+        if (in_array(self::ROLE_CLIENT, $roles, true)) {
+            return self::ROLE_CLIENT;
+        }
+
+        return self::ROLE_USER;
     }
 }

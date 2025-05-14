@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html.twig' %}
+
+{% block title %}Charts{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Charts</h1>
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Area Chart Example</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('dash-assets/vendors/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('dash-assets/js/demo/chart-area-demo.js') }}"></script>
+{% endblock %}
