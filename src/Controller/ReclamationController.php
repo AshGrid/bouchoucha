@@ -17,6 +17,12 @@ final class ReclamationController extends AbstractController
     #[Route(name: 'app_reclamation_index', methods: ['GET'])]
     public function index(ReclamationRepository $reclamationRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // Then check for either ROLE_ADMIN OR ROLE_SUPER_ADMIN
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw $this->createAccessDeniedException('You need admin privileges to access this page');
+        }
         return $this->render('user/reclamation/index.html.twig', [
             'reclamations' => $reclamationRepository->findAll(),
         ]);
@@ -25,6 +31,7 @@ final class ReclamationController extends AbstractController
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationForm::class, $reclamation);
         $form->handleRequest($request);
@@ -45,6 +52,7 @@ final class ReclamationController extends AbstractController
     #[Route('/{id}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('user/reclamation/show.html.twig', [
             'reclamation' => $reclamation,
         ]);
@@ -53,6 +61,7 @@ final class ReclamationController extends AbstractController
     #[Route('/{id}/edit', name: 'app_reclamation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(ReclamationForm::class, $reclamation);
         $form->handleRequest($request);
 
@@ -71,6 +80,7 @@ final class ReclamationController extends AbstractController
     #[Route('/{id}', name: 'app_reclamation_delete', methods: ['POST'])]
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($this->isCsrfTokenValid('delete'.$reclamation->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($reclamation);
             $entityManager->flush();

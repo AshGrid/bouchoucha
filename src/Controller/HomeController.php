@@ -11,6 +11,12 @@ final class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
+        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles())|| in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles()))
+        {
+            return $this->render('dashboard/home/index.html.twig', [
+                'controller_name' => 'HomeController',
+            ]);
+        }
         return $this->render('user/home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);

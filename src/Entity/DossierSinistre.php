@@ -22,6 +22,9 @@ class DossierSinistre
     #[ORM\Column(length: 255)]
     private ?string $etat = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $idDossier = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class DossierSinistre
     public function setEtat(string $etat): static
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getIdDossier(): ?string
+    {
+        return $this->idDossier;
+    }
+
+    public function setIdDossier(string $idDossier): static
+    {
+        $this->idDossier = $idDossier;
 
         return $this;
     }

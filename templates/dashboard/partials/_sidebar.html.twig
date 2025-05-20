@@ -27,7 +27,7 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item {{ app.request.get('_route') == 'dashboard_tables' ? 'active' : '' }}">
-        <a class="nav-link" href="{{ path('dashboard_tables') }}">
+        <a class="nav-link" href="{{ path('app_user_index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span>
         </a>
@@ -37,6 +37,13 @@
         <a class="nav-link" href="{{ path('app_dossier_sinistre_index_dashboard') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Dossiers</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ app.request.get('_route') == 'app_reclamation_index_dashboard' ? 'active' : '' }}">
+        <a class="nav-link" href="{{ path('app_reclamation_index_dashboard') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Reclamations</span>
         </a>
     </li>
 

@@ -25,6 +25,7 @@
                                 <tr>
                                     <th class="fw-bold">Claim #</th>
                                     <th class="fw-bold">Policy #</th>
+                                    <th class="fw-bold">ID Dossier </th>
                                     <th class="fw-bold">Description</th>
                                     <th class="fw-bold">Status</th>
                                     <th class="fw-bold text-end">Actions</th>
@@ -35,6 +36,7 @@
                                     <tr>
                                         <td>{{ dossier_sinistre.id }}</td>
                                         <td>{{ dossier_sinistre.numeroPolice }}</td>
+                                        <td>{{ dossier_sinistre.idDossier }}</td>
                                         <td>{{ dossier_sinistre.description|u.truncate(50, '...') }}</td>
                                         <td>
                                         <span class="badge

@@ -15,10 +15,10 @@
                                 Claim Details - Policy #{{ dossier_sinistre.numeroPolice }}
                             </h3>
                             <div class="btn-group">
-                                <a href="{{ path('app_dossier_sinistre_index') }}" class="btn btn-light rounded-pill me-2">
+                                <a href="{{ path('app_dossier_sinistre_index_dashboard') }}" class="btn btn-light rounded-pill me-2">
                                     <i class="fas fa-arrow-left me-2"></i> Back to Claims
                                 </a>
-                                <a href="{{ path('app_dossier_sinistre_edit', {'id': dossier_sinistre.id}) }}"
+                                <a href="{{ path('app_dossier_sinistre_edit_dashboard', {'id': dossier_sinistre.id}) }}"
                                    class="btn btn-warning rounded-pill">
                                     <i class="fas fa-edit me-2"></i> Edit
                                 </a>
@@ -35,26 +35,36 @@
                                         <i class="fas fa-info-circle me-2"></i> Basic Information
                                     </h5>
                                     <div class="row">
-                                        <div class="col-6 mb-3">
+                                        <!-- First Row: Claim ID + Status -->
+                                        <div class="col-md-6 mb-3">
                                             <p class="mb-1 fw-bold">Claim ID</p>
                                             <p class="text-muted">{{ dossier_sinistre.id }}</p>
                                         </div>
-                                        <div class="col-6 mb-3">
-                                            <p class="mb-1 fw-bold">Status</p>
-                                            <span class="badge
-                                            {% if dossier_sinistre.etat == 'Pending' %}bg-warning
-                                            {% elseif dossier_sinistre.etat == 'Approved' %}bg-success
-                                            {% elseif dossier_sinistre.etat == 'Rejected' %}bg-danger
-                                            {% else %}bg-secondary
-                                            {% endif %}">
-                                            {{ dossier_sinistre.etat }}
-                                        </span>
+
+                                        <div class="col-md-6 mb-3">
+                                            <p class="mb-1 fw-bold">ID Dossier</p>
+                                            <p class="text-muted">{{ dossier_sinistre.iddossier }}</p>
                                         </div>
-                                        <div class="col-12 mb-3">
+
+
+                                        <!-- Second Row: Policy Number + ID Dossier -->
+                                        <div class="col-md-6 mb-3">
                                             <p class="mb-1 fw-bold">Policy Number</p>
                                             <p class="text-muted">{{ dossier_sinistre.numeroPolice }}</p>
                                         </div>
+                                        <div class="col-md-6 mb-3">
+                                            <p class="mb-1 fw-bold">Status</p>
+                                            <span class="badge
+            {% if dossier_sinistre.etat == 'Pending' %}bg-warning
+            {% elseif dossier_sinistre.etat == 'Approved' %}bg-success
+            {% elseif dossier_sinistre.etat == 'Rejected' %}bg-danger
+            {% else %}bg-warning
+            {% endif %}">
+            {{ dossier_sinistre.etat }}
+        </span>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
 

@@ -1,52 +1,57 @@
 {% extends 'dashboard/base.html.twig' %}
 
-{% block title %}New Reclamation - LifeSure{% endblock %}
+{% block title %}New Reclamation - Dashboard{% endblock %}
 
 {% block body %}
-    <section class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
-                    <!-- Header Section -->
-                    <div class="card-header bg-primary text-white py-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i> New Reclamation</h3>
-                            <a href="{{ path('app_reclamation_index') }}" class="btn btn-light rounded-pill">
-                                <i class="fas fa-arrow-left me-2"></i> Back to Reclamations
-                            </a>
-                        </div>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-exclamation-circle mr-2"></i> New Reclamation
+            </h1>
+            <a href="{{ path('app_reclamation_index_dashboard') }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50 mr-1"></i> Back to List
+            </a>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
+                        <h6 class="m-0 font-weight-bold text-white">Create New Reclamation</h6>
                     </div>
 
-                    <!-- Form Section -->
-                    <div class="card-body p-5">
+                    <!-- Card Body -->
+                    <div class="card-body">
                         {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-                        <div class="row g-4">
-                            <!-- Title -->
-
-
-                            <!-- Status -->
-                            <div class="col-md-6">
+                        <div class="row">
+                            <!-- Status Field -->
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    {{ form_label(form.statut, 'Status', {'label_attr': {'class': 'form-label fw-bold mb-3'}}) }}
+                                    {{ form_label(form.statut, 'Status', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0">
-                                            <i class="fas fa-tag text-primary"></i>
-                                        </span>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-tag text-primary"></i>
+                                            </span>
+                                        </div>
                                         {{ form_widget(form.statut, {'attr': {
-                                            'class': 'form-select py-3',
+                                            'class': 'form-control',
                                         }}) }}
                                     </div>
                                     {{ form_errors(form.statut) }}
                                 </div>
                             </div>
 
-                            <!-- Description -->
-                            <div class="col-12">
+                            <!-- Description Field -->
+                            <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-bold mb-3'}}) }}
+                                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
                                     {{ form_widget(form.description, {'attr': {
-                                        'class': 'form-control py-3',
+                                        'class': 'form-control',
                                         'placeholder': 'Describe your reclamation in detail',
                                         'rows': 5
                                     }}) }}
@@ -54,19 +59,14 @@
                                 </div>
                             </div>
 
-                            <!-- Date -->
-
-
-                            <!-- Supporting Documents (optional) -->
-
-
                             <!-- Submit Button -->
-                            <div class="col-12 mt-4">
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
-                                        <i class="fas fa-save me-2"></i> Submit Reclamation
-                                    </button>
-                                </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-save"></i>
+                                    </span>
+                                    <span class="text">Submit Reclamation</span>
+                                </button>
                             </div>
                         </div>
 
@@ -75,30 +75,27 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+{% endblock %}
 
-    <style>
-        .form-control:focus, .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            border-bottom: none;
-        }
-        .input-group-text {
-            background-color: #f8f9fa;
-            border-right: 0;
-        }
-        .is-invalid {
-            border-color: #dc3545;
-        }
-        .invalid-feedback {
-            color: #dc3545;
-            font-size: 0.875em;
-        }
-    </style>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 {% endblock %}
