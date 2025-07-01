@@ -1,0 +1,82 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}Astree Assurance - Home{% endblock %}
+
+{% block body %}
+    <!-- Carousel Start -->
+    <div class="header-carousel owl-carousel">
+        <!-- Your carousel content -->
+    </div>
+    <!-- Carousel End -->
+
+    <!-- Feature Start -->
+    <div class="container-fluid feature bg-light py-5">
+        <!-- Your feature content -->
+    </div>
+    <!-- Feature End -->
+
+    <!-- Search Section -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+                <h1 class="display-5">Rechercher un Dossier</h1>
+                <hr class="w-25 mx-auto text-primary" style="opacity: 1;">
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <form action="{{ path('app_welcome') }}" method="get" class="mb-5">
+                        <div class="input-group">
+                            <input type="text"
+                                   class="form-control form-control-lg"
+                                   name="search"
+                                   placeholder="Entrez l'ID du dossier..."
+                                   value="{{ searchId ?? '' }}">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="fas fa-search me-1"></i> Rechercher
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if searchId %}
+                        {% if dossier %}
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Dossier #{{ dossier.idDossier }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Numéro Police:</strong> {{ dossier.numeroPolice }}</p>
+                                            <p><strong>État:</strong>
+                                                <span class="badge bg-{{ dossier.etat == 'En cours' ? 'warning' : 'success' }}">
+                                                    {{ dossier.etat }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Description:</strong></p>
+                                            <p>{{ dossier.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <a href="{{ path('app_dossier_sinistre_show', {'id': dossier.id}) }}"
+                                       class="btn btn-outline-primary">
+                                        <i class="fas fa-file-alt me-1"></i> Voir le dossier complet
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Aucun dossier trouvé avec l'ID "{{ searchId }}"
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Search Section -->
+{% endblock %}

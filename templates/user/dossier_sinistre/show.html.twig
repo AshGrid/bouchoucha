@@ -54,6 +54,28 @@
                                             <p class="mb-1 fw-bold">Policy Number</p>
                                             <p class="text-muted">{{ dossier_sinistre.numeroPolice }}</p>
                                         </div>
+                                        <div class="col-12 mb-3">
+                                            <p class="mb-1 fw-bold">Reclamations</p>
+                                            {% for reclamation in dossier_sinistre.reclamations %}
+                                                <tr>
+                                                    <td>{{ reclamation.id }}</td>
+                                                    <td>{{ reclamation.description }}</td>
+
+                                                    <td>
+
+                                                    </td>
+
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center py-4">
+                                                        <div class="alert alert-info mb-0">
+                                                            <i class="fas fa-info-circle me-2"></i> No reclamations found
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,23 @@
+# config/packages/vich_uploader.yaml
+vich_uploader:
+  db_driver: orm
+
+  # Configure mappings for your uploads
+  mappings:
+    # Constat images (single image per dossier)
+    constat_images:
+      uri_prefix: /uploads/constats
+      upload_destination: '%kernel.project_dir%/public/uploads/constats'
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      delete_on_remove: true
+      delete_on_update: true
+      inject_on_load: false
+
+    # Car images (multiple images per dossier)
+    car_images:
+      uri_prefix: /uploads/cars
+      upload_destination: '%kernel.project_dir%/public/uploads/cars'
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      delete_on_remove: true
+      delete_on_update: true
+      inject_on_load: false

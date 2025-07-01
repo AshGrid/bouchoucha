@@ -25,7 +25,7 @@
 
                     <!-- Card Body -->
                     <div class="card-body">
-                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
 
                         <div class="row">
                             <!-- Policy Number -->
@@ -78,19 +78,40 @@
                                 </div>
                             </div>
 
-                            <!-- Supporting Documents -->
-                            <div class="col-12 mb-4">
-                                <label class="font-weight-bold text-primary">
-                                    <i class="fas fa-paperclip mr-2"></i> Supporting Documents
-                                </label>
-                                <div class="card border-left-primary shadow py-2">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <i class="fas fa-cloud-upload-alt fa-2x text-gray-300 mb-3"></i>
-                                            <p class="mb-2">Drag & drop files here or click to browse</p>
-                                            <small class="text-muted">Maximum file size: 5MB (PDF, JPG, PNG)</small>
-                                        </div>
+                            <!-- Constat Image -->
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    {{ form_label(form.constatImageFile, 'Constat Image', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
+                                    <div class="custom-file">
+                                        {{ form_widget(form.constatImageFile, {'attr': {
+                                            'class': 'custom-file-input',
+                                            'lang': 'en'
+                                        }}) }}
+                                        <label class="custom-file-label" for="dossier_sinistre_form_constatImageFile">
+                                            Choose file...
+                                        </label>
                                     </div>
+                                    <small class="form-text text-muted">Upload the constat image (JPG, PNG)</small>
+                                    {{ form_errors(form.constatImageFile) }}
+                                </div>
+                            </div>
+
+                            <!-- Car Images -->
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    {{ form_label(form.carImages, 'Car Images', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
+                                    <div class="custom-file">
+                                        {{ form_widget(form.carImages, {'attr': {
+                                            'class': 'custom-file-input',
+                                            'lang': 'en',
+                                            'multiple': 'multiple'
+                                        }}) }}
+                                        <label class="custom-file-label" for="dossier_sinistre_form_carImages">
+                                            Choose files...
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">Upload multiple car images (JPG, PNG)</small>
+                                    {{ form_errors(form.carImages) }}
                                 </div>
                             </div>
 
@@ -116,9 +137,25 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        // Add any additional JavaScript needed for the dashboard
         $(document).ready(function() {
-            // Example: Enable Bootstrap validation
+            // Bootstrap file input display
+            $('.custom-file-input').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                let label = $(this).siblings('.custom-file-label');
+
+                if ($(this).attr('multiple')) {
+                    const files = $(this)[0].files;
+                    if (files.length > 1) {
+                        fileName = files.length + ' files selected';
+                    } else if (files.length === 1) {
+                        fileName = files[0].name;
+                    }
+                }
+
+                label.addClass("selected").html(fileName);
+            });
+
+            // Form validation
             (function() {
                 'use strict';
                 window.addEventListener('load', function() {

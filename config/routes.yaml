@@ -4,5 +4,5 @@ controllers:
         namespace: App\Controller
     type: attribute
 app_home:
-    path: /
+    path: /home
     controller: App\Controller\HomeController::index

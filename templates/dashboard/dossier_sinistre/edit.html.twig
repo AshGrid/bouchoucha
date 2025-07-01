@@ -1,119 +1,148 @@
 {% extends 'dashboard/base.html.twig' %}
 
-{% block title %}Edit Claim #{{ dossier_sinistre.id }} - LifeSure{% endblock %}
+{% block title %}Edit Claim #{{ dossier_sinistre.id }} - Dashboard{% endblock %}
 
 {% block body %}
-    <section class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
-                    <!-- Header Section -->
-                    <div class="card-header bg-primary text-white py-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3 class="mb-0">
-                                <i class="fas fa-edit me-2"></i>
-                                Edit Claim - Policy #{{ dossier_sinistre.numeroPolice }}
-                            </h3>
-                            <a href="{{ path('app_dossier_sinistre_show_dashboard', {'id': dossier_sinistre.id}) }}"
-                               class="btn btn-light rounded-pill">
-                                <i class="fas fa-eye me-2"></i> View Claim
-                            </a>
-                        </div>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-edit mr-2"></i> Edit Claim #{{ dossier_sinistre.id }}
+            </h1>
+            <a href="{{ path('app_dossier_sinistre_index_dashboard') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50 mr-1"></i> Back to Claims
+            </a>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
+                        <h6 class="m-0 font-weight-bold text-white">Edit Claim Information</h6>
                     </div>
 
-                    <!-- Form Section -->
-                    <div class="card-body p-5">
-                        {{ form_start(form, {
-                            'attr': {
-                                'class': 'needs-validation',
-                                'novalidate': 'novalidate'
-                            }
-                        }) }}
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
 
-                        <div class="row g-4">
+                        <div class="row">
                             <!-- Policy Number -->
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    {{ form_label(form.numeroPolice, 'Policy Number', {
-                                        'label_attr': {
-                                            'class': 'form-label fw-bold mb-3'
-                                        }
-                                    }) }}
+                                    {{ form_label(form.numeroPolice, 'Policy Number', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
                                     <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0">
-                                        <i class="fas fa-file-invoice text-primary"></i>
-                                    </span>
-                                        {{ form_widget(form.numeroPolice, {
-                                            'attr': {
-                                                'class': 'form-control py-3',
-                                                'placeholder': 'Enter policy number'
-                                            }
-                                        }) }}
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-file-invoice text-primary"></i>
+                                            </span>
+                                        </div>
+                                        {{ form_widget(form.numeroPolice, {'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Enter policy number'
+                                        }}) }}
                                     </div>
                                     {{ form_errors(form.numeroPolice) }}
                                 </div>
                             </div>
 
                             <!-- Claim Status -->
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    {{ form_label(form.etat, 'Claim Status', {
-                                        'label_attr': {
-                                            'class': 'form-label fw-bold mb-3'
-                                        }
-                                    }) }}
+                                    {{ form_label(form.etat, 'Claim Status', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
                                     <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0">
-                                        <i class="fas fa-tag text-primary"></i>
-                                    </span>
-                                        {{ form_widget(form.etat, {
-                                            'attr': {
-                                                'class': 'form-select py-3'
-                                            }
-                                        }) }}
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-tag text-primary"></i>
+                                            </span>
+                                        </div>
+                                        {{ form_widget(form.etat, {'attr': {
+                                            'class': 'form-control',
+                                        }}) }}
                                     </div>
                                     {{ form_errors(form.etat) }}
                                 </div>
                             </div>
 
                             <!-- Description -->
-                            <div class="col-12">
+                            <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    {{ form_label(form.description, 'Description', {
-                                        'label_attr': {
-                                            'class': 'form-label fw-bold mb-3'
-                                        }
-                                    }) }}
-                                    {{ form_widget(form.description, {
-                                        'attr': {
-                                            'class': 'form-control py-3',
-                                            'placeholder': 'Describe the incident in detail',
-                                            'rows': 5
-                                        }
-                                    }) }}
+                                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
+                                    {{ form_widget(form.description, {'attr': {
+                                        'class': 'form-control',
+                                        'placeholder': 'Describe the incident in detail',
+                                        'rows': 5
+                                    }}) }}
                                     {{ form_errors(form.description) }}
                                 </div>
                             </div>
 
-                            <!-- Supporting Documents -->
-
-
-
-
-                            <!-- Action Buttons -->
-                            <div class="col-12 mt-4">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <a href="{{ path('app_dossier_sinistre_index') }}"
-                                           class="btn btn-outline-secondary rounded-pill me-2">
-                                            <i class="fas fa-arrow-left me-2"></i> Back to List
-                                        </a>
-                                        {{ include('dashboard/dossier_sinistre/_delete_form.html.twig') }}
+                            <!-- Constat Image -->
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    {{ form_label(form.constatImageFile, 'Constat Image', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
+                                    <div class="custom-file">
+                                        {{ form_widget(form.constatImageFile, {'attr': {
+                                            'class': 'custom-file-input',
+                                            'lang': 'en'
+                                        }}) }}
+                                        <label class="custom-file-label" for="dossier_sinistre_form_constatImageFile">
+                                            {% if dossier_sinistre.constatImageName %}
+                                                {{ dossier_sinistre.constatImageName }}
+                                            {% else %}
+                                                Choose file...
+                                            {% endif %}
+                                        </label>
                                     </div>
-                                    <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                        <i class="fas fa-save me-2"></i> Update Claim
-                                    </button>
+                                    <small class="form-text text-muted">
+                                        {% if dossier_sinistre.constatImageName %}
+                                            Current file: {{ dossier_sinistre.constatImageName }} (leave blank to keep)
+                                        {% else %}
+                                            Upload the constat image (JPG, PNG)
+                                        {% endif %}
+                                    </small>
+                                    {{ form_errors(form.constatImageFile) }}
                                 </div>
+                            </div>
+
+                            <!-- Car Images -->
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    {{ form_label(form.carImages, 'Car Images', {'label_attr': {'class': 'font-weight-bold text-primary'}}) }}
+                                    <div class="custom-file">
+                                        {{ form_widget(form.carImages, {'attr': {
+                                            'class': 'custom-file-input',
+                                            'lang': 'en',
+                                            'multiple': 'multiple'
+                                        }}) }}
+                                        <label class="custom-file-label" for="dossier_sinistre_form_carImages">
+                                            {% if dossier_sinistre.carImageNames|length > 0 %}
+                                                {{ dossier_sinistre.carImageNames|length }} existing images
+                                            {% else %}
+                                                Choose files...
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        {% if dossier_sinistre.carImageNames|length > 0 %}
+                                            {{ dossier_sinistre.carImageNames|join(', ') }} (upload to add more)
+                                        {% else %}
+                                            Upload multiple car images (JPG, PNG)
+                                        {% endif %}
+                                    </small>
+                                    {{ form_errors(form.carImages) }}
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-save"></i>
+                                    </span>
+                                    <span class="text">Update Claim</span>
+                                </button>
                             </div>
                         </div>
 
@@ -122,33 +151,46 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+{% endblock %}
 
-    <style>
-        .form-control:focus, .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-        }
-        .document-card {
-            border: 1px solid #dee2e6;
-            transition: all 0.3s ease;
-        }
-        .document-card:hover {
-            border-color: #0d6efd;
-            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
-        }
-        .border-dashed {
-            border: 2px dashed #dee2e6;
-        }
-        .file-upload-area {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .file-upload-area:hover {
-            border-color: #0d6efd;
-            background-color: rgba(13, 110, 253, 0.05);
-        }
-    </style>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // Bootstrap file input display
+            $('.custom-file-input').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                let label = $(this).siblings('.custom-file-label');
 
+                if ($(this).attr('multiple')) {
+                    const files = $(this)[0].files;
+                    if (files.length > 1) {
+                        fileName = files.length + ' files selected';
+                    } else if (files.length === 1) {
+                        fileName = files[0].name;
+                    }
+                }
 
+                label.addClass("selected").html(fileName);
+            });
+
+            // Form validation
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    var forms = document.getElementsByClassName('needs-validation');
+                    Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        });
+    </script>
 {% endblock %}

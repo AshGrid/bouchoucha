@@ -19,6 +19,12 @@ class Reclamation
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reclamations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?DossierSinistre $dossierSinistre = null;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,4 +53,18 @@ class Reclamation
 
         return $this;
     }
+
+    public function getDossierSinistre(): ?DossierSinistre
+    {
+        return $this->dossierSinistre;
+    }
+
+    public function setDossierSinistre(?DossierSinistre $dossierSinistre): static
+    {
+        $this->dossierSinistre = $dossierSinistre;
+
+        return $this;
+    }
+
+
 }

@@ -43,11 +43,10 @@
 
                                         <div class="col-md-6 mb-3">
                                             <p class="mb-1 fw-bold">ID Dossier</p>
-                                            <p class="text-muted">{{ dossier_sinistre.iddossier }}</p>
+                                            <p class="text-muted">{{ dossier_sinistre.idDossier }}</p>
                                         </div>
 
-
-                                        <!-- Second Row: Policy Number + ID Dossier -->
+                                        <!-- Second Row: Policy Number + Status -->
                                         <div class="col-md-6 mb-3">
                                             <p class="mb-1 fw-bold">Policy Number</p>
                                             <p class="text-muted">{{ dossier_sinistre.numeroPolice }}</p>
@@ -55,25 +54,44 @@
                                         <div class="col-md-6 mb-3">
                                             <p class="mb-1 fw-bold">Status</p>
                                             <span class="badge
-            {% if dossier_sinistre.etat == 'Pending' %}bg-warning
-            {% elseif dossier_sinistre.etat == 'Approved' %}bg-success
-            {% elseif dossier_sinistre.etat == 'Rejected' %}bg-danger
-            {% else %}bg-warning
-            {% endif %}">
-            {{ dossier_sinistre.etat }}
-        </span>
+                                                {% if dossier_sinistre.etat == 'Pending' %}bg-warning
+                                                {% elseif dossier_sinistre.etat == 'Approved' %}bg-success
+                                                {% elseif dossier_sinistre.etat == 'Rejected' %}bg-danger
+                                                {% else %}bg-warning
+                                                {% endif %}">
+                                                {{ dossier_sinistre.etat }}
+                                            </span>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="detail-card mb-4 p-4 bg-light rounded">
                                     <h5 class="text-primary mb-4">
-                                        <i class="fas fa-calendar-alt me-2"></i> Dates
+                                        <i class="fas fa-images me-2"></i> Constat Image
                                     </h5>
-
+                                    {% if dossier_sinistre.constatImageName %}
+                                        <div class="text-center">
+                                            <a href="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}" target="_blank">
+                                                <img src="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}"
+                                                     class="img-fluid rounded border"
+                                                     style="max-height: 200px;"
+                                                     alt="Constat Image">
+                                            </a>
+                                            <p class="mt-2 small text-muted">
+                                                <i class="fas fa-download me-1"></i>
+                                                <a href="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}" download>
+                                                    Download original
+                                                </a>
+                                            </p>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info mb-0">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            No constat image uploaded
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -88,34 +106,39 @@
                             </div>
                         </div>
 
-                        <!-- Documents Section (optional) -->
+                        <!-- Car Images Section -->
                         <div class="detail-card mb-4 p-4 bg-light rounded">
                             <h5 class="text-primary mb-4">
-                                <i class="fas fa-paperclip me-2"></i> Supporting Documents
+                                <i class="fas fa-car me-2"></i> Car Damage Images
                             </h5>
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-pdf fa-3x text-danger mb-2"></i>
-                                        <p class="mb-1 fw-bold">Police Report.pdf</p>
-                                        <small class="text-muted">2.4 MB</small>
-                                    </div>
+                            {% if dossier_sinistre.carImageNames is not empty %}
+                                <div class="row g-3">
+                                    {% for imageName in dossier_sinistre.carImageNames %}
+                                        <div class="col-md-4 col-6">
+                                            <div class="document-thumbnail p-3 bg-white rounded text-center">
+                                                <a href="{{ asset('uploads/cars/' ~ imageName) }}" target="_blank">
+                                                    <img src="{{ asset('uploads/cars/' ~ imageName) }}"
+                                                         class="img-fluid rounded mb-2"
+                                                         style="max-height: 150px;"
+                                                         alt="Car damage image {{ loop.index }}">
+                                                </a>
+                                                <p class="mb-1 fw-bold">Damage_{{ loop.index }}.{{ imageName|split('.')|last }}</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-download me-1"></i>
+                                                    <a href="{{ asset('uploads/cars/' ~ imageName) }}" download>
+                                                        Download
+                                                    </a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
-                                        <p class="mb-1 fw-bold">Damage_1.jpg</p>
-                                        <small class="text-muted">1.8 MB</small>
-                                    </div>
+                            {% else %}
+                                <div class="alert alert-info mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    No car damage images uploaded
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
-                                        <p class="mb-1 fw-bold">Damage_2.jpg</p>
-                                        <small class="text-muted">2.1 MB</small>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
 
                         <!-- Action Buttons -->
@@ -158,6 +181,10 @@
             padding: 0.5em 0.75em;
             font-size: 0.85em;
             font-weight: 500;
+        }
+        .img-preview {
+            max-height: 200px;
+            object-fit: contain;
         }
     </style>
 {% endblock %}
