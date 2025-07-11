@@ -4,16 +4,54 @@
 
 {% block body %}
     <!-- Carousel Start -->
-    <div class="header-carousel owl-carousel">
-        <!-- Your carousel content -->
-    </div>
-    <!-- Carousel End -->
+    <section class="container my-5">
+        <h4 class="mb-4">📊 Reclamation Status Distribution</h4>
+        <div style="max-width: 400px; margin: 0 auto;">
+            <canvas id="reclamationPieChart"></canvas>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('reclamationPieChart').getContext('2d');
 
-    <!-- Feature Start -->
-    <div class="container-fluid feature bg-light py-5">
-        <!-- Your feature content -->
-    </div>
-    <!-- Feature End -->
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Pending', 'Treated'],
+                datasets: [{
+                    label: 'Reclamation Status',
+                    data: [
+                        {{ reclamationStats['pending'] }},
+                        {{ reclamationStats['treated'] }},
 
-    <!-- Other sections... -->
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 193, 7, 0.7)',   // Yellow - Pending
+                        'rgba(40, 167, 69, 0.7)',   // Green - Approved
+                        'rgba(220, 53, 69, 0.7)'    // Red - Rejected
+                    ],
+                    borderColor: [
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Reclamation Status Overview'
+                    }
+                }
+            }
+        });
+    </script>
+
+
 {% endblock %}
