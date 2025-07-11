@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\DossierSinistre;
+use App\Entity\Reclamation;
 use App\Form\DossierSinistreForm;
+use App\Form\ReclamationForm;
 use App\Repository\DossierSinistreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,11 +52,25 @@ final class DossierSinistreController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_dossier_sinistre_show', methods: ['GET'])]
-    public function show(DossierSinistre $dossierSinistre): Response
+    public function show(DossierSinistre $dossierSinistre,Request $request,
+                         EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $reclamation = new Reclamation();
+        $reclamation->setDossierSinistre($dossierSinistre);
+        $form = $this->createForm(ReclamationForm::class, $reclamation);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($reclamation);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Reclamation added successfully!');
+            return $this->redirectToRoute('app_dossier_sinistre_show', ['id' => $dossierSinistre->getId()]);
+        }
         return $this->render('user/dossier_sinistre/show.html.twig', [
             'dossier_sinistre' => $dossierSinistre,
+            'reclamation_form' => $form->createView(),
         ]);
     }
 

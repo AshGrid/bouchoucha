@@ -54,28 +54,35 @@
                                             <p class="mb-1 fw-bold">Policy Number</p>
                                             <p class="text-muted">{{ dossier_sinistre.numeroPolice }}</p>
                                         </div>
-                                        <div class="col-12 mb-3">
-                                            <p class="mb-1 fw-bold">Reclamations</p>
+                                        <div class="row g-3 mb-3">
                                             {% for reclamation in dossier_sinistre.reclamations %}
-                                                <tr>
-                                                    <td>{{ reclamation.id }}</td>
-                                                    <td>{{ reclamation.description }}</td>
-
-                                                    <td>
-
-                                                    </td>
-
-                                                </tr>
-                                            {% else %}
-                                                <tr>
-                                                    <td colspan="5" class="text-center py-4">
-                                                        <div class="alert alert-info mb-0">
-                                                            <i class="fas fa-info-circle me-2"></i> No reclamations found
+                                                <div class="col-md-6">
+                                                    <div class="card border shadow-sm h-100">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title text-primary">Reclamation #{{ reclamation.id }}</h6>
+                                                            <p class="card-text mb-2">{{ reclamation.description }}</p>
+                                                            <span class="badge
+                        {% if reclamation.statut == 'pending' %}bg-warning
+                        {% elseif reclamation.statut == 'treated' %}bg-success
+                        {% else %}bg-secondary{% endif %}">
+                        {{ reclamation.statut|capitalize }}
+                    </span>
                                                         </div>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-12">
+                                                    <div class="alert alert-info text-center">
+                                                        <i class="fas fa-info-circle me-2"></i> No reclamations found
+                                                    </div>
+                                                </div>
                                             {% endfor %}
                                         </div>
+                                        <a href="{{ path('app_reclamation_new_for_dossier', {'dossierId': dossier_sinistre.id}) }}"
+                                           class="btn btn-primary">
+                                            <i class="fas fa-plus me-2"></i> Add Reclamation
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +92,10 @@
                                     <h5 class="text-primary mb-4">
                                         <i class="fas fa-calendar-alt me-2"></i> Dates
                                     </h5>
-
+                                    <div class="col-6 mb-3">
+                                        <p class="mb-1 fw-bold">Created At</p>
+                                        <p class="text-muted">{{ dossier_sinistre.UpdatedAT|date('Y-m-d H:i') }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,34 +111,69 @@
                         </div>
 
                         <!-- Documents Section (optional) -->
+                        <!-- Constat Image Section -->
                         <div class="detail-card mb-4 p-4 bg-light rounded">
                             <h5 class="text-primary mb-4">
-                                <i class="fas fa-paperclip me-2"></i> Supporting Documents
+                                <i class="fas fa-images me-2"></i> Constat Image
                             </h5>
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-pdf fa-3x text-danger mb-2"></i>
-                                        <p class="mb-1 fw-bold">Police Report.pdf</p>
-                                        <small class="text-muted">2.4 MB</small>
-                                    </div>
+                            {% if dossier_sinistre.constatImageName %}
+                                <div class="text-center">
+                                    <a href="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}" target="_blank">
+                                        <img src="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}"
+                                             class="img-fluid rounded border"
+                                             style="max-height: 200px;"
+                                             alt="Constat Image">
+                                    </a>
+                                    <p class="mt-2 small text-muted">
+                                        <i class="fas fa-download me-1"></i>
+                                        <a href="{{ asset('uploads/constats/' ~ dossier_sinistre.constatImageName) }}" download>
+                                            Download original
+                                        </a>
+                                    </p>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
-                                        <p class="mb-1 fw-bold">Damage_1.jpg</p>
-                                        <small class="text-muted">1.8 MB</small>
-                                    </div>
+                            {% else %}
+                                <div class="alert alert-info mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    No constat image uploaded
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="document-thumbnail p-3 bg-white rounded text-center">
-                                        <i class="fas fa-file-image fa-3x text-primary mb-2"></i>
-                                        <p class="mb-1 fw-bold">Damage_2.jpg</p>
-                                        <small class="text-muted">2.1 MB</small>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
+
+                        <!-- Car Images Section -->
+                        <div class="detail-card mb-4 p-4 bg-light rounded">
+                            <h5 class="text-primary mb-4">
+                                <i class="fas fa-car me-2"></i> Car Damage Images
+                            </h5>
+                            {% if dossier_sinistre.carImageNames is not empty %}
+                                <div class="row g-3">
+                                    {% for imageName in dossier_sinistre.carImageNames %}
+                                        <div class="col-md-4 col-6">
+                                            <div class="document-thumbnail p-3 bg-white rounded text-center">
+                                                <a href="{{ asset('uploads/cars/' ~ imageName) }}" target="_blank">
+                                                    <img src="{{ asset('uploads/cars/' ~ imageName) }}"
+                                                         class="img-fluid rounded mb-2"
+                                                         style="max-height: 150px;"
+                                                         alt="Car damage image {{ loop.index }}">
+                                                </a>
+                                                <p class="mb-1 fw-bold">Damage_{{ loop.index }}.{{ imageName|split('.')|last }}</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-download me-1"></i>
+                                                    <a href="{{ asset('uploads/cars/' ~ imageName) }}" download>
+                                                        Download
+                                                    </a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    No car damage images uploaded
+                                </div>
+                            {% endif %}
+                        </div>
+
 
                         <!-- Action Buttons -->
                         <div class="d-flex justify-content-between mt-4">
@@ -170,6 +215,26 @@
             padding: 0.5em 0.75em;
             font-size: 0.85em;
             font-weight: 500;
+        }
+        .detail-card {
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .detail-card:hover {
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        }
+        .document-thumbnail {
+            border: 1px dashed #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .document-thumbnail:hover {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .img-preview {
+            max-height: 200px;
+            object-fit: contain;
         }
     </style>
 {% endblock %}

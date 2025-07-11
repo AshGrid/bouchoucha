@@ -81,6 +81,10 @@ class DossierSinistre
     {
         return $this->id;
     }
+    public function getUpdatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
     public function getNumeroPolice(): ?string
     {

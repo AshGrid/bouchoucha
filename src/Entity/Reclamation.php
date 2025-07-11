@@ -17,7 +17,8 @@ class Reclamation
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $statut = null;
+    #[Assert\Choice(choices: ['pending', 'treated'], message: 'Choose a valid status.')]
+    private ?string $statut = 'pending';
 
     #[ORM\ManyToOne(inversedBy: 'reclamations')]
     #[ORM\JoinColumn(nullable: false)]

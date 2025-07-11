@@ -13,7 +13,7 @@ class ReclamationForm extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('statut')
+
         ;
     }
 
